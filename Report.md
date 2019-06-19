@@ -9,10 +9,6 @@ This solution was based on the following implementation [code](https://github.co
 
 In essence, instead of solving for a specific (state, action) based on a defined policy (as is common in conventional RL), DDPG looks to modify and optimize the policy, hence the use of policy gradients. DDPG learns a Q-function and a policy, using off-policy data and the Bellman equation to learn the Q-function, and then the Q-function is used to learn the policy required to solve the environment. This allows for a continuous environment to be solved, where the the number of (action, state) is too large to be effectively solved due to computational size. A key element of DDPG is the use of Actor-Critic neural network models to drive evaluation of the decisions in the environment.
 
-The pseudo code for DDPG is given here:
-
-![alt text][image002]
-
 In the code implementation view, DDPG has four main components:
 
 * Agent
@@ -20,9 +16,7 @@ In the code implementation view, DDPG has four main components:
 * Critic
 * DDPG Algorithm
 
-Initially, the Actor and Critic networks are initialized randomly. At each time-step, the current state is fed into the actor network, a value is then returned which if fed into the noise function of the Agent. Taking this action naturally leads to a new state value and associated reward. As with Deep Q-Learning, the temporal relationship between actions and rewards is essential to contextualizing the relationship between action sequences and reward in the environment. The Agent includes a Replay Buffer function, which stores the history of: State, Action, Reward, NextState. Conceptually DDGP is illustrated in the following diagram:
-
-![alt text][image003]
+Initially, the Actor and Critic networks are initialized randomly. At each time-step, the current state is fed into the actor network, a value is then returned which if fed into the noise function of the Agent. Taking this action naturally leads to a new state value and associated reward. As with Deep Q-Learning, the temporal relationship between actions and rewards is essential to contextualizing the relationship between action sequences and reward in the environment. The Agent includes a Replay Buffer function, which stores the history of: State, Action, Reward, NextState.
 
 A random sample is taken from the Replay Buffer, and fed to the Critic Network, which then evaluates with the new state with an action from the Actor network, which ultimately provides the new state. The Replay Buffers essentially stores experiences, and is sampled from to direct new actions. In other words, it learns to take new actions based on previous experiences. To implement stable learning behavior, the Replay Buffer must be large to contain enough experiences to be useful. A trade-off needs to exist so that the algorithm doesn't use only the the very-most recent data, since this would logically lead to overfit of recent actions, but not generalize well across all action experiences. Therefore it is essential that a random sample of experiences be taken to direct new actions. The Critic is evaluated with the new state, based on the taken action from the Actor, in order to approximate the next reward. With the policy-based approach, the Actor learns how to act by maximizing reward and thereby estimating the optimal policy. Here gradient ascent is used (traditionally gradient descent is used in deep learning optimization methods). With the value-based approach, the Critic estimate the cumulative reward of the (state, action) sets.
 
