@@ -1,3 +1,6 @@
+[image001]: Final_result.png "DDPG Result"
+
+
 ## Solution Path
 This solution utilized a Deep Deterministic Policy Gradient (DDPG) algorithm. DDPG is used as a rather flexible approach to continuous problems, and served well in this environment. DDPG is based on Deep Q-Learning, applied in a continuous action environment. It utilizes an actor-critic, model-free algorithm based on the deterministic policy.
 
@@ -20,12 +23,27 @@ Initially, the Actor and Critic networks are initialized randomly. At each time-
 
 A random sample is taken from the Replay Buffer, and fed to the Critic Network, which then evaluates with the new state with an action from the Actor network, which ultimately provides the new state. The Replay Buffers essentially stores experiences, and is sampled from to direct new actions. In other words, it learns to take new actions based on previous experiences. To implement stable learning behavior, the Replay Buffer must be large to contain enough experiences to be useful. A trade-off needs to exist so that the algorithm doesn't use only the the very-most recent data, since this would logically lead to overfit of recent actions, but not generalize well across all action experiences. Therefore it is essential that a random sample of experiences be taken to direct new actions. The Critic is evaluated with the new state, based on the taken action from the Actor, in order to approximate the next reward. With the policy-based approach, the Actor learns how to act by maximizing reward and thereby estimating the optimal policy. Here gradient ascent is used (traditionally gradient descent is used in deep learning optimization methods). With the value-based approach, the Critic estimate the cumulative reward of the (state, action) sets.
 
+### Solution
+
+The DDPG approach was able to solve the environment in under 3000 episodes as shown below.
+
+![alt text][image001]
+
 The Actor and Critic were implemented with identical neural network architectures. Batch normalization was used in the final layer, and was seen to improve network performance.
 
 | fc1_units | fc2_units |
 |-----------|-----------|
 | 256       | 128       |
 
+Critical hyperparamters included>
+
+BUFFER_SIZE = int(1e6)  # replay buffer size
+BATCH_SIZE = 256        # minibatch size
+GAMMA = 0.99            # discount factor
+TAU = 1e-3              # for soft update of target parameters
+LR_ACTOR = 1e-4         # learning rate of the actor 
+LR_CRITIC = 2e-4        # learning rate of the critic
+CRITIC_WEIGHT_DECAY = 0        # L2 weight decay
 
 ### Future Directions
 
