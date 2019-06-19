@@ -45,6 +45,6 @@ The following packages are required to run the program and can be installed via 
 * torch
 
 ## Code Execution
-* In order to run the program, access the Jupyter Notebook: Continuous_Control_DDPG.ipynb
+* In order to run the program, access the Jupyter Notebook: Tennis.ipynb
 * Run the notebook cells using the play command.
 * In order to train the agent and observe the training output, run the code: scores = ddpg()
